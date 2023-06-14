@@ -1,5 +1,8 @@
 package cloud.isaura.adso.tokenizers;
 
+import cloud.isaura.adso.normalizers.LowerCaseNormalizer;
+import cloud.isaura.adso.normalizers.NormalizerType;
+import cloud.isaura.adso.normalizers.NormalizersBuilder;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jol.info.GraphLayout;
 
@@ -31,10 +34,12 @@ public class TokenizersTest
     {
         AdsoTokenizer adsoTokenizer = new AdsoTokenizer();
         adsoTokenizer.setFile("src/main/resources/promessisposi.txt");
+        NormalizersBuilder.newBuilder().withNormalizer(new LowerCaseNormalizer()).build();
         assertNotNull(adsoTokenizer);
         assertTrue(adsoTokenizer.fileExists());
+        adsoTokenizer.withNormalizer(NormalizerType.LOWER_CASE);
         adsoTokenizer.load();
-        System.out.println(GraphLayout.parseInstance(adsoTokenizer).toPrintable());
+        //System.out.println(GraphLayout.parseInstance(adsoTokenizer).toPrintable());
         //System.out.println(GraphLayout.parseInstance(adsoTokenizer).toFootprint());
 
     }
