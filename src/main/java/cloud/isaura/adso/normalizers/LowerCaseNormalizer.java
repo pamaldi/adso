@@ -5,6 +5,6 @@ public class LowerCaseNormalizer implements Normalizer
     @Override
     public String apply(String aString)
     {
-      return "";
+      return aString.toLowerCase();
     }
 }

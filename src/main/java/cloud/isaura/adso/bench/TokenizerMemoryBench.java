@@ -14,29 +14,16 @@ import java.lang.management.ManagementFactory;
 public class TokenizerMemoryBench
 {
 
-    private static void bench01()
-    {
-        AdsoTokenizer adsoTokenizer = new AdsoTokenizer();
-        adsoTokenizer.setFile("src/main/resources/promessisposi.txt");
-        NormalizersBuilder.newBuilder().withNormalizer(new LowerCaseNormalizer()).build();
-        adsoTokenizer.withNormalizer(NormalizerType.LOWER_CASE);
-        try
-        {
-            adsoTokenizer.load();
-        } catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
 
-    private static void bench02()
+    private static void benchMono()
     {
-        for(int i = 0; i < 1000;i++)
+        for(int i = 0; i < 1;i++)
         {
-            AdsoTokenizer adsoTokenizer = new AdsoTokenizer();
-            adsoTokenizer.setFile("src/main/resources/promessisposi.txt");
-            NormalizersBuilder.newBuilder().withNormalizer(new LowerCaseNormalizer()).build();
-            adsoTokenizer.withNormalizer(NormalizerType.LOWER_CASE);
+            AdsoTokenizer adsoTokenizer = AdsoTokenizer.newAdsoTokenizer()
+                    .withNormalizer(NormalizerType.LOWER_CASE)
+                    .withFile("src/main/resources/drugsComTrain_raw.tsv")
+                    .withBufferSize(1000L)
+                    .build();
             try
             {
                 adsoTokenizer.load();
@@ -47,18 +34,18 @@ public class TokenizerMemoryBench
         }
     }
 
-
-    private static void bench03()
+    private static void benchMulti()
     {
-        for(int i = 0; i < 1000;i++)
+        for(int i = 0; i < 1;i++)
         {
-            AdsoTokenizer adsoTokenizer = new AdsoTokenizer();
-            adsoTokenizer.setFile("src/main/resources/promessisposi.txt");
-            NormalizersBuilder.newBuilder().withNormalizer(new LowerCaseNormalizer()).build();
-            adsoTokenizer.withNormalizer(NormalizerType.LOWER_CASE);
+            AdsoTokenizer adsoTokenizer = AdsoTokenizer.newAdsoTokenizer()
+                    .withNormalizer(NormalizerType.LOWER_CASE)
+                    .withFile("src/main/resources/drugsComTrain_raw.tsv")
+                    .withBufferSize(1000L)
+                    .build();
             try
             {
-                adsoTokenizer.loadCharBuffer();
+                adsoTokenizer.loadMulti();
             } catch (IOException e)
             {
                 throw new RuntimeException(e);
@@ -66,13 +53,19 @@ public class TokenizerMemoryBench
         }
     }
 
+
+
+
     public static void main(String[] args) throws IOException
     {
         Long before =  MemoryUtils.getCurrent();
-        bench03();
+        Long start = System.currentTimeMillis();
+        benchMulti();
+        Long end = System.currentTimeMillis();
         Long after =  MemoryUtils.getCurrent();
         System.out.println("Memory used: " + (after - before));
-        MemoryUtils.print();
+        System.out.println("Time elapsed: " + (end - start));
+        //MemoryUtils.print();
     }
 
 

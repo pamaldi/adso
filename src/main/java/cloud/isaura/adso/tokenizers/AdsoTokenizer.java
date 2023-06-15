@@ -17,17 +17,27 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class AdsoTokenizer implements Tokenizer
 {
+    public static final long BUFFER_SIZE = 1000L;
     private String path;
 
     private List<Normalizer> normalizers;
 
     private AdsoFileReader adsoFileReader;
 
+    private Long bufferSize;
 
-    public AdsoTokenizer()
+    private Long getBufferSize()
+    {
+        return this.bufferSize!=null?this.bufferSize:BUFFER_SIZE;
+    }
+
+
+    private AdsoTokenizer()
     {
         this.normalizers = new ArrayList<>();
 
@@ -44,49 +54,106 @@ public class AdsoTokenizer implements Tokenizer
         return Files.exists(path);
     }
 
-    public void setFile(String path)
+
+
+    public void loadMulti() throws IOException
     {
-        this.path = path;
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        System.out.println("Number of cores: " + availableProcessors);
+        long realBufferSize = getBufferSize() * availableProcessors;
+        System.out.println("Real buffer size: " + realBufferSize);
+        this.adsoFileReader = new AdsoFileReader(this.path, realBufferSize);
+        String current = null;
+        Vocabulary vocabulary = new Vocabulary();
+        ThreadPoolExecutor executor =
+                (ThreadPoolExecutor) Executors.newFixedThreadPool(availableProcessors);
+        while (this.adsoFileReader.hasNext())
+        {
+            byte[] bytes = this.adsoFileReader.next();
+            current = new String(bytes, StandardCharsets.UTF_8);
+
+
+               for(int i = 0; i < availableProcessors; i++)
+               {
+                     int start = i * (current.length() / availableProcessors);
+                     int end = (i + 1) * (current.length() / availableProcessors);
+                     Runnable worker = new TokenBuilder();
+                        ((TokenBuilder) worker).perform(vocabulary, current.substring(start, end), this.normalizers);
+               }
+
+        }
+        executor.shutdown();
+        while (!executor.isTerminated())
+        {
+        }
+        System.out.println("Finished all threads");
+        vocabulary.print();
+
     }
+
 
     public void load() throws IOException
     {
 
-        this.adsoFileReader = new AdsoFileReader(this.path,1000L);
+        long realBufferSize = getBufferSize();
+        System.out.println("Real buffer size: " + realBufferSize);
+        this.adsoFileReader = new AdsoFileReader(this.path, realBufferSize);
         String current = null;
+        Vocabulary vocabulary = new Vocabulary();
+
         while (this.adsoFileReader.hasNext())
         {
             byte[] bytes = this.adsoFileReader.next();
+            current = new String(bytes, StandardCharsets.UTF_8);
+            for(int m = 0; m < normalizers.size();m++)
+            {
+                Normalizer normalizer = normalizers.get(m);
+                current = normalizer.apply(current);
+            }
 
-            current = new String(bytes, StandardCharsets.UTF_8).toLowerCase();
-
+            for (int i = 0; i < current.length(); i++)
+            {
+                char c = current.charAt(i);
+                if (Character.isWhitespace(c))
+                {
+                    continue;
+                }
+                vocabulary.addChar(c);
+            }
 
         }
 
+        System.out.println("Finished all threads");
+        vocabulary.print();
+
     }
 
-    public void loadCharBuffer() throws IOException
+    public static AdsoTokenizer newAdsoTokenizer()
     {
-
-        this.adsoFileReader = new AdsoFileReader(this.path,1000L);
-        String current = null;
-        while (this.adsoFileReader.hasNext())
-        {
-            byte[] bytes = this.adsoFileReader.next();
-
-            CharBuffer cb = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(bytes));
-            cb.charAt(0);
-
-        }
-
+        return new AdsoTokenizer();
     }
 
-    public void withNormalizer(NormalizerType normalizerType)
+    public AdsoTokenizer withNormalizer(NormalizerType normalizerType)
     {
         this.normalizers.add(NormalizersFactory.getNormalizer(normalizerType));
-
+        return this;
     }
 
+    public  AdsoTokenizer withBufferSize(Long bufferSize)
+    {
+        this.bufferSize=bufferSize;
+        return this;
+    }
 
+    public AdsoTokenizer withFile(String path)
+    {
+        this.path = path;
+        return this;
+    }
+
+    public AdsoTokenizer build()
+    {
+        return this;
+    }
 
 }

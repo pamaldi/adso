@@ -23,6 +23,11 @@ public class MemoryUtils
         return 0L;
     }
 
+    public static Integer getNumberOfCores()
+    {
+        return Runtime.getRuntime().availableProcessors();
+    }
+
     public static void print() throws IOException
     {
         String name = ManagementFactory.getRuntimeMXBean().getName();
