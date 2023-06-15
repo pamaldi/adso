@@ -60,7 +60,7 @@ public class TokenizerMemoryBench
     {
         Long before =  MemoryUtils.getCurrent();
         Long start = System.currentTimeMillis();
-        benchMulti();
+        benchMono();
         Long end = System.currentTimeMillis();
         Long after =  MemoryUtils.getCurrent();
         System.out.println("Memory used: " + (after - before));

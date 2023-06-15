@@ -7,9 +7,17 @@ import java.util.List;
 
 public class TokenBuilder implements Runnable
 {
-    public void perform(Vocabulary vocabulary, String current, List<Normalizer> normalizers)
+
+    public TokenBuilder()
+    {
+        this.vocabulary = new Vocabulary();
+    }
+
+    private Vocabulary vocabulary;
+    public void perform(String current, List<Normalizer> normalizers)
 
     {
+
 
         for(int m = 0; m < normalizers.size();m++)
         {
@@ -24,7 +32,7 @@ public class TokenBuilder implements Runnable
             {
                 continue;
             }
-            vocabulary.addSynchChar(c);
+            vocabulary.addChar(c);
         }
     }
 
@@ -32,6 +40,6 @@ public class TokenBuilder implements Runnable
     @Override
     public void run()
     {
-
+        this.vocabulary = new Vocabulary();
     }
 }

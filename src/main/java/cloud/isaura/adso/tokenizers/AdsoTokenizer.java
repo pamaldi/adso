@@ -78,7 +78,7 @@ public class AdsoTokenizer implements Tokenizer
                      int start = i * (current.length() / availableProcessors);
                      int end = (i + 1) * (current.length() / availableProcessors);
                      Runnable worker = new TokenBuilder();
-                        ((TokenBuilder) worker).perform(vocabulary, current.substring(start, end), this.normalizers);
+                        ((TokenBuilder) worker).perform(current.substring(start, end), this.normalizers);
                }
 
         }
@@ -87,7 +87,7 @@ public class AdsoTokenizer implements Tokenizer
         {
         }
         System.out.println("Finished all threads");
-        vocabulary.print();
+
 
     }
 

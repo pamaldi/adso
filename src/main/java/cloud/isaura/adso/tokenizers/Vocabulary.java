@@ -1,25 +1,29 @@
 package cloud.isaura.adso.tokenizers;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Vocabulary
 {
     private HashMap<Character, Long> vocabularyMap;
 
+    private ConcurrentHashMap<Character, Long> concurrentHashMap;
+
     public Vocabulary()
     {
         vocabularyMap = new HashMap<>();
+        concurrentHashMap = new ConcurrentHashMap<>();
     }
 
-    public synchronized void addSynchChar(char c)
+    public  void addSynchChar(char c)
     {
-        if (vocabularyMap.containsKey(c))
+        if (concurrentHashMap.containsKey(c))
         {
-            vocabularyMap.put(c, vocabularyMap.get(c) + 1);
+            concurrentHashMap.put(c, concurrentHashMap.get(c) + 1);
         }
         else
         {
-            vocabularyMap.put(c, 1L);
+            concurrentHashMap.put(c, 1L);
         }
     }
 
@@ -38,6 +42,13 @@ public class Vocabulary
     public void print()
     {
         this.vocabularyMap.entrySet().stream().forEach(entry -> {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });
+    }
+
+    public void printMulti()
+    {
+        this.concurrentHashMap.entrySet().stream().forEach(entry -> {
             System.out.println(entry.getKey() + " " + entry.getValue());
         });
     }
