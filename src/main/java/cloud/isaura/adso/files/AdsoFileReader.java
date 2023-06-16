@@ -17,23 +17,31 @@ public class AdsoFileReader
 
     private Long bufferSize;
 
-    public AdsoFileReader(String path, Long bufferSize) throws IOException
+    public AdsoFileReader(String path) throws IOException
     {
         this.path = path;
         this.fc = java.nio.file.Files.newByteChannel(Paths.get(path), StandardOpenOption.READ);
         this.position = 0L;
         this.size = this.fc.size();
-        this.bufferSize = bufferSize;
+
    }
 
     public Boolean hasNext()
     {
+        //System.out.println("position "+position);
+        //System.out.println("size "+size);
+        //System.out.println("buffersize "+bufferSize);
         return position < size;
     }
 
     public Long fileSize() throws IOException
     {
         return this.fc.size();
+    }
+
+    public void setBufferSize(Long bufferSize)
+    {
+        this.bufferSize = bufferSize;
     }
 
     public byte[] next() throws IOException

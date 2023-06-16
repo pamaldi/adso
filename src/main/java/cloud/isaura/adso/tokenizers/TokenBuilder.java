@@ -2,26 +2,25 @@ package cloud.isaura.adso.tokenizers;
 
 import cloud.isaura.adso.normalizers.Normalizer;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class TokenBuilder implements Runnable
 {
 
-    public TokenBuilder()
+    public TokenBuilder(Vocabulary vocabulary)
     {
-        this.vocabulary = new Vocabulary();
+        this.vocabulary = vocabulary;
     }
 
-    private Vocabulary vocabulary;
-    public void perform(String current, List<Normalizer> normalizers)
 
+    private Vocabulary vocabulary;
+    public void perform(String current, List<Normalizer> normalizers, int start, int end)
     {
 
+        //System.out.println("Thread "+Thread.currentThread()+"start: " + start + " end: " + end);
 
-        for(int m = 0; m < normalizers.size();m++)
+        for (Normalizer normalizer : normalizers)
         {
-            Normalizer normalizer = normalizers.get(m);
             current = normalizer.apply(current);
         }
 
@@ -34,6 +33,7 @@ public class TokenBuilder implements Runnable
             }
             vocabulary.addChar(c);
         }
+        //System.out.println("Thread "+Thread.currentThread()+"start: " + start + " end: " + end);
     }
 
 
