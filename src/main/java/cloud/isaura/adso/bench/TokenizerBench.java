@@ -97,7 +97,13 @@ public class TokenizerBench
 
 
 
-
+    public static void main(String[] args) throws IOException
+    {
+        TokenizerBench tokenizerBench = new TokenizerBench();
+        tokenizerBench.benchMono();
+        tokenizerBench.benchMultiVT();
+        tokenizerBench.benchMulti();
+    }
 
 
 }

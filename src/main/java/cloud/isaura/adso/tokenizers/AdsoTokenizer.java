@@ -40,6 +40,7 @@ public class AdsoTokenizer implements Tokenizer
     {
         this.normalizers = new ArrayList<>();
 
+
     }
 
     public Boolean fileExists()
@@ -128,33 +129,25 @@ public class AdsoTokenizer implements Tokenizer
 
     public void load() throws IOException
     {
-
-
         Long startTimeFile = System.currentTimeMillis();
-        SeekableByteChannel seekableByteChannel = Files.newByteChannel(Paths.get(path), StandardOpenOption.READ);
-        Long fileSize = seekableByteChannel.size();
-        System.out.println("size: " + fileSize);
-        ByteBuffer bf = ByteBuffer.allocate(fileSize.intValue());
-        seekableByteChannel.read(bf);
-        String current = new String(bf.array(), StandardCharsets.UTF_8);
-        Vocabulary vocabulary = new Vocabulary();
+        this.adsoFileReader = new AdsoFileReader(this.path);
         Long endTimeFile = System.currentTimeMillis();
         System.out.println("Time to read file: " + (endTimeFile - startTimeFile));
-        for (Normalizer normalizer : normalizers)
+        while(this.adsoFileReader.hasNext())
         {
-            current = normalizer.apply(current);
+            String current = new String(this.adsoFileReader.next());
+
+            for (int i = 0; i < current.length(); i++)
+            {
+                char c = current.charAt(i);
+                if (Character.isWhitespace(c))
+                {
+                    continue;
+                }
+                vocabulary.addChar(c);
+            }
         }
 
-        for (int i = 0; i < current.length(); i++)
-        {
-            char c = current.charAt(i);
-            if (Character.isWhitespace(c))
-            {
-                continue;
-            }
-            vocabulary.addChar(c);
-        }
-        //vocabulary.print();
 
 
     }
