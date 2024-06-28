@@ -14,9 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 public class LlmProducer
 {
 
-    OllamaLanguageModel ollamaLanguageModel;
+    private LanguageModel languageModel;
 
-    OpenAiLanguageModel openAiLanguageModel;
 
     @Inject
     Configuration configuration;
@@ -24,24 +23,52 @@ public class LlmProducer
     @Produces
     @Singleton
     public LanguageModel produceLanguageModel() {
-
-
+        if(languageModel != null)
+        {
+            return languageModel;
+        }
         String llm = configuration.getLlm();
         if(llm == null || llm.trim().length()==0)
         {
             throw new IllegalArgumentException("Not exisiting llm: ");
         }
-
-
         switch (LanguageModelCode.fromName(llm)) {
             case LanguageModelCode.OLLAMA:
                 if(StringUtils.isEmpty(configuration.getOllamaBaseUrl())|| StringUtils.isEmpty(configuration.getOllamaModelName()))
                 {
                     throw new IllegalArgumentException("Specify base url and model name");
                 }
-                return OllamaLanguageModel.builder().modelName(configuration.getOllamaModelName()).baseUrl(configuration.getOllamaBaseUrl()).build();
+                languageModel = OllamaLanguageModel.builder().modelName(configuration.getOllamaModelName()).baseUrl(configuration.getOllamaBaseUrl()).build();
+                return languageModel;
             case LanguageModelCode.OPEN_AI:
-                return OpenAiLanguageModel.builder().build();
+                languageModel = OpenAiLanguageModel.builder().build();
+                return languageModel;
+            default:
+                throw new IllegalArgumentException("Unknown implementation class: " + llm);
+        }
+    }
+
+    public LanguageModel produceLanguageModel(LanguageModelCode llmCode) {
+        if(languageModel != null)
+        {
+            return languageModel;
+        }
+        String llm = configuration.getLlm();
+        if(llm == null || llm.trim().length()==0)
+        {
+            throw new IllegalArgumentException("Not exisiting llm: ");
+        }
+        switch (LanguageModelCode.fromName(llm)) {
+            case LanguageModelCode.OLLAMA:
+                if(StringUtils.isEmpty(configuration.getOllamaBaseUrl())|| StringUtils.isEmpty(configuration.getOllamaModelName()))
+                {
+                    throw new IllegalArgumentException("Specify base url and model name");
+                }
+                languageModel = OllamaLanguageModel.builder().modelName(configuration.getOllamaModelName()).baseUrl(configuration.getOllamaBaseUrl()).build();
+                return languageModel;
+            case LanguageModelCode.OPEN_AI:
+                languageModel = OpenAiLanguageModel.builder().build();
+                return languageModel;
             default:
                 throw new IllegalArgumentException("Unknown implementation class: " + llm);
         }

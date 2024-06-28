@@ -3,6 +3,7 @@ package cloud.isaura.adso.llm;
 
 import cloud.isaura.adso.configurations.Configuration;
 import dev.langchain4j.model.language.LanguageModel;
+import dev.langchain4j.model.ollama.OllamaLanguageModel;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -64,6 +65,12 @@ public class LlmProducerTest
         Mockito.when(configuration.getOllamaModelName()).thenReturn(OLLAMA_MODEL_NAME);
         LanguageModel languageModel = llmProducer.produceLanguageModel();
         assertNotNull(languageModel, "language model must be not null");
+        assertTrue(languageModel instanceof OllamaLanguageModel);
+        languageModel = llmProducer.produceLanguageModel();
+        assertNotNull(languageModel, "language model must be not null");
+        assertTrue(languageModel instanceof OllamaLanguageModel);
+
+
     }
 }
 
