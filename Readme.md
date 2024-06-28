@@ -1,7 +1,14 @@
 # ADSO
 
 ADSO is a Java Quarkus project focused on experiments with LLM agents. The project comprises two main modules: adso-parent and adso-core. It leverages the Langchaing4j library for advanced language processing capabilities.
+
+## LLM agents
 LLM agents are software entities that use Large Language Models (LLMs) to understand, process, and generate human language. They are used in applications like chatbots, virtual assistants, and language translation systems to perform advanced language tasks.
+
+## Adso da Melk
+Adso of Melk is a fictional character in Umberto Eco's novel The Name of the Rose. He is a young Benedictine novice who serves as the narrator and assistant to the protagonist, William of Baskerville, during their investigation of mysterious deaths in an Italian monastery.
+
+
 ## Table of Contents
 
 - [Project Structure](#project-structure)
