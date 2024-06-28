@@ -61,10 +61,7 @@ Navigate to the root directory of the project and build the modules using Maven:
 
 ## Usage
 ### LLM Experiments
-The adso-core module contains various experiments with LLM agents using the Langchaing4j library. To interact with these experiments, you can use the provided REST endpoints.
-Example Endpoint
-You can access the endpoints via http://localhost:8080/api/experiment. Specific endpoints and their usage will be documented within the code and API documentation.
-
+The adso-core module contains various experiments with LLM agents using the Langchaing4j library. 
 ## Contributing
 We welcome contributions! Please follow these steps to contribute:
 Fork the repository.
