@@ -3,7 +3,7 @@ package cloud.isaura.adso.llm;
 public enum LanguageModelCode
 {
 
-    OLLAMA("ollama"), OPEN_AI("open_ai");
+    OLLAMA("ollama"), OPEN_AI("open_ai"), ECHO("echo");
 
     LanguageModelCode(String name)
     {
