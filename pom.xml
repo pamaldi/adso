@@ -13,6 +13,7 @@
     <modules>
         <module>adso-parent</module>
         <module>adso-core</module>
+        <module>adso-melk</module>
     </modules>
 
     <build>
