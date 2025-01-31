@@ -2,6 +2,7 @@ package cloud.isaura.adso.core.interfaces.rest;
 
 import cloud.isaura.adso.core.domain.llm.LanguageModelDto;
 import cloud.isaura.adso.core.domain.llm.service.LanguageModelService;
+import dev.langchain4j.model.ollama.OllamaModel;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -22,7 +23,7 @@ public class LanguageModelResource
     @Path("available-models")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<LanguageModelDto> availableModels()
+    public List<OllamaModel> availableModels()
     {
         LOG.info("Available models");
         return languageModelService.availableModels();
