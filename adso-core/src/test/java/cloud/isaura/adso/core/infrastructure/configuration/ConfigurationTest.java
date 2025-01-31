@@ -13,8 +13,6 @@ public class ConfigurationTest
     @Inject
     Configuration config;
 
-
-
     @Test
     public void testConfigPropertyExists() {
         assertNotNull(config, "The Configuration should be injected");
@@ -22,8 +20,8 @@ public class ConfigurationTest
 
     @Test
     public void testLLmMandatoryProperties() {
-        assertNotNull(config.getDefaultLlm(), "The default.llm should be not null");
-        assertNotNull(config.getLlm(), "The llm should be not null");
+        assertNotNull(config.getOllamaBaseUrl(), "Ollama base url should be not null");
+        assertNotNull(config.getOllamaModelName(), "Ollama model name should be not null");
     }
 
 

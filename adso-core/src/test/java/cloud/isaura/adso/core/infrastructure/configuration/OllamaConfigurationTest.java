@@ -19,8 +19,9 @@ public class OllamaConfigurationTest
     Configuration configuration;
 
     @BeforeEach
-    public void setup() {
-        Mockito.when(configuration.getLlm()).thenReturn(OLLAMA);
+    public void setup()
+    {
+
     }
 
     @Test
@@ -28,18 +29,8 @@ public class OllamaConfigurationTest
     {
         Mockito.when(configuration.getOllamaBaseUrl()).thenReturn(OLLAMA_URL);
         Mockito.when(configuration.getOllamaModelName()).thenReturn(OLLAMA_MODEL_NAME);
-        assertEquals(OLLAMA, configuration.getLlm());
         assertEquals(OLLAMA_URL, configuration.getOllamaBaseUrl());
         assertEquals(OLLAMA_MODEL_NAME, configuration.getOllamaModelName());
     }
 
-    @Test
-    public void given_llm_different_from_ollama_and_other_null_when_build_configuration_then_ok()
-    {
-        Mockito.when(configuration.getLlm()).thenReturn("other");
-        Mockito.when(configuration.getOllamaBaseUrl()).thenReturn(null);
-        Mockito.when(configuration.getOllamaModelName()).thenReturn(null);
-        assertNull(configuration.getOllamaBaseUrl());
-        assertNull(configuration.getOllamaModelName());
-    }
 }

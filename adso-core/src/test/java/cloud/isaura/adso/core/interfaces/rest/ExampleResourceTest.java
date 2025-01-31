@@ -1,4 +1,4 @@
-package cloud.isaura.adso.core.interfaces;
+package cloud.isaura.adso.core.interfaces.rest;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;

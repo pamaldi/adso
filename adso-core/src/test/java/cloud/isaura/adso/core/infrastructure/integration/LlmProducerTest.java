@@ -2,7 +2,6 @@ package cloud.isaura.adso.core.infrastructure.integration;
 
 
 import cloud.isaura.adso.core.infrastructure.configuration.Configuration;
-import cloud.isaura.adso.core.domain.llm.LanguageModelCode;
 import dev.langchain4j.model.language.LanguageModel;
 import dev.langchain4j.model.ollama.OllamaLanguageModel;
 import io.quarkus.test.InjectMock;
@@ -23,7 +22,7 @@ public class LlmProducerTest
     @InjectMock
     Configuration configuration;
 
-    public static final String OLLAMA = "ollama";
+
     public static final String OLLAMA_URL = "http://localhost:11434";
     public static final String OLLAMA_MODEL_NAME = "llama3";
 
@@ -47,7 +46,7 @@ public class LlmProducerTest
 
     @Test
     public void given_ollama_llm_when_producer_and_not_base_url_then_illegal_argument() {
-        Mockito.when(configuration.getLlm()).thenReturn(OLLAMA);
+        Mockito.when(configuration.getOllamaModelName()).thenReturn(OLLAMA_MODEL_NAME);
         assertThrows(IllegalArgumentException.class, () -> {
             llmProducer.produceLanguageModel();
         });
@@ -55,8 +54,8 @@ public class LlmProducerTest
 
     @Test
     public void given_ollama_llm_when_producer_and_not_model_name_then_illegal_argument() {
-        Mockito.when(configuration.getLlm()).thenReturn(OLLAMA);
-        Mockito.when(configuration.getOllamaBaseUrl()).thenReturn(OLLAMA_URL);
+        Mockito.when(configuration.getOllamaModelName()).thenReturn(null);
+        Mockito.when(configuration.getOllamaBaseUrl()).thenReturn(null);
         assertThrows(IllegalArgumentException.class, () -> {
             llmProducer.produceLanguageModel();
         });
@@ -64,7 +63,7 @@ public class LlmProducerTest
 
     @Test
     public void given_ollama_llm_when_producer_then_language_model_instance_of_OllamaLanguageModel() {
-        Mockito.when(configuration.getLlm()).thenReturn(OLLAMA);
+        ;
         Mockito.when(configuration.getOllamaBaseUrl()).thenReturn(OLLAMA_URL);
         Mockito.when(configuration.getOllamaModelName()).thenReturn(OLLAMA_MODEL_NAME);
         LanguageModel languageModel = llmProducer.produceLanguageModel();
@@ -77,18 +76,18 @@ public class LlmProducerTest
 
     @Test
     public void given_ollama_llm_when_producer_explicit_and_not_base_url_then_illegal_argument() {
-        Mockito.when(configuration.getLlm()).thenReturn(OLLAMA);
+        Mockito.when(configuration.getOllamaModelName()).thenReturn(OLLAMA_MODEL_NAME);
         assertThrows(IllegalArgumentException.class, () -> {
-            llmProducer.produceLanguageModel(LanguageModelCode.OLLAMA);
+            llmProducer.produceLanguageModel(OLLAMA_MODEL_NAME);
         });
     }
 
     @Test
     public void given_ollama_llm_when_producer_explicit_then_language_model_instance_of_OllamaLanguageModel() {
-        Mockito.when(configuration.getLlm()).thenReturn(OLLAMA);
+
         Mockito.when(configuration.getOllamaBaseUrl()).thenReturn(OLLAMA_URL);
         Mockito.when(configuration.getOllamaModelName()).thenReturn(OLLAMA_MODEL_NAME);
-        LanguageModel languageModel = llmProducer.produceLanguageModel(LanguageModelCode.OLLAMA);
+        LanguageModel languageModel = llmProducer.produceLanguageModel(OLLAMA_MODEL_NAME);
         assertNotNull(languageModel, "language model must be not null");
         assertTrue(languageModel instanceof OllamaLanguageModel);
         languageModel = llmProducer.produceLanguageModel();
@@ -99,7 +98,7 @@ public class LlmProducerTest
     @Test
     public void given_echo_llm_when_producer_explicit_then_language_model_instance_of_DoubleEchoLanguageModel() {
 
-        LanguageModel languageModel = llmProducer.produceLanguageModel(LanguageModelCode.ECHO);
+        LanguageModel languageModel = llmProducer.echo();
         assertNotNull(languageModel, "language model must be not null");
         assertTrue(languageModel instanceof DoubleEchoLanguageModel);
 
