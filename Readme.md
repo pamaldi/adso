@@ -1,13 +1,19 @@
 # ADSO
 
-ADSO is a Java Quarkus project focused on experiments with LLM agents. The project comprises two main modules: adso-parent and adso-core. It leverages the Langchaing4j library for advanced language processing capabilities.
+ADSO is a Java Quarkus project focused on experiments with LLM agents. The project comprises two main modules:
+adso-parent and adso-core. It leverages the Langchaing4j library for advanced language processing capabilities.
 
 ## LLM agents
-LLM agents are software entities that use Large Language Models (LLMs) to understand, process, and generate human language. They are used in applications like chatbots, virtual assistants, and language translation systems to perform advanced language tasks.
+
+LLM agents are software entities that use Large Language Models (LLMs) to understand, process, and generate human
+language. They are used in applications like chatbots, virtual assistants, and language translation systems to perform
+advanced language tasks.
 
 ## Adso da Melk
-Adso of Melk is a fictional character in Umberto Eco's novel The Name of the Rose. He is a young Benedictine novice who serves as the narrator and assistant to the protagonist, William of Baskerville, during their investigation of mysterious deaths in an Italian monastery.
 
+Adso of Melk is a fictional character in Umberto Eco's novel The Name of the Rose. He is a young Benedictine novice who
+serves as the narrator and assistant to the protagonist, William of Baskerville, during their investigation of
+mysterious deaths in an Italian monastery.
 
 ## Table of Contents
 
@@ -43,26 +49,31 @@ This is the core module where the main logic and experiments with LLM agents are
 ### Prerequisites
 
 Ensure you have the following installed:
+
 - Java 11 or higher
 - Maven 3.6.3 or higher
 
 ### Clone
-    
+
     git clone <repository-url>
     cd adso-project
 
-
 ## Building and Running
+
 ### Build the Project
+
 Navigate to the root directory of the project and build the modules using Maven:
 
-    
     mvn clean install
 
 ## Usage
+
 ### LLM Experiments
-The adso-core module contains various experiments with LLM agents using the Langchaing4j library. 
+
+The adso-core module contains various experiments with LLM agents using the Langchaing4j library.
+
 ## Contributing
+
 We welcome contributions! Please follow these steps to contribute:
 Fork the repository.
 Create a new branch (git checkout -b feature-branch).
@@ -71,6 +82,8 @@ Push to the branch (git push origin feature-branch).
 Create a new Pull Request.
 
 ## License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
-Feel free to reach out for any questions or support regarding the ADSO project. Enjoy experimenting with LLM agents using Quarkus and Langchaing4j!
+Feel free to reach out for any questions or support regarding the ADSO project. Enjoy experimenting with LLM agents
+using Quarkus and Langchaing4j!
 

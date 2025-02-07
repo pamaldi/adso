@@ -11,10 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 public class LlmProducer
 {
 
-    private LanguageModel languageModel;
-
     @Inject
     Configuration configuration;
+    private LanguageModel languageModel;
 
     private LanguageModel getLanguageModel(String llm)
     {
