@@ -1,20 +1,28 @@
 package cloud.isaura.adso.core.infrastructure.integration;
 
+import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.language.LanguageModel;
 import dev.langchain4j.model.output.Response;
 
-public class DoubleEchoLanguageModel implements LanguageModel
+import java.util.List;
+
+public class DoubleEchoLanguageModel implements ChatLanguageModel
 {
+
     @Override
-    public Response<String> generate(String prompt)
+    public String chat(String userMessage)
     {
-        return Response.from(prompt + " " + prompt);
+        return userMessage+" an echo : "+userMessage;
     }
 
     @Override
-    public Response<String> generate(Prompt prompt)
+    public Response<AiMessage> generate(List<ChatMessage> messages)
     {
-        return Response.from(prompt.text() + " " + prompt.text());
+        return null;
     }
+
+
 }

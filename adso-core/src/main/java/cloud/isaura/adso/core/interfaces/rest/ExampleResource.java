@@ -13,6 +13,6 @@ public class ExampleResource
     @Produces(MediaType.TEXT_PLAIN)
     public String hello()
     {
-        return "Hello from Quarkus REST";
+        return "Stat rosa pristine nomine, nomina nuda tenemus";
     }
 }

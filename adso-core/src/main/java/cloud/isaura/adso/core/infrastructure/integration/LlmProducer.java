@@ -1,7 +1,9 @@
 package cloud.isaura.adso.core.infrastructure.integration;
 
 import cloud.isaura.adso.core.infrastructure.configuration.Configuration;
+import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.language.LanguageModel;
+import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.ollama.OllamaLanguageModel;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -13,9 +15,9 @@ public class LlmProducer
 
     @Inject
     Configuration configuration;
-    private LanguageModel languageModel;
+    private ChatLanguageModel languageModel;
 
-    private LanguageModel getLanguageModel(String llm)
+    private ChatLanguageModel getLanguageModel(String llm)
     {
         if (llm == null || llm.trim().length() == 0) {
             throw new IllegalArgumentException("Not exisiting llm: ");
@@ -24,11 +26,11 @@ public class LlmProducer
         if (StringUtils.isEmpty(configuration.getOllamaBaseUrl()) || StringUtils.isEmpty(configuration.getOllamaModelName())) {
             throw new IllegalArgumentException("Specify base url and model name");
         }
-        languageModel = OllamaLanguageModel.builder().modelName(configuration.getOllamaModelName()).baseUrl(configuration.getOllamaBaseUrl()).build();
+        languageModel = OllamaChatModel.builder().modelName(configuration.getOllamaModelName()).baseUrl(configuration.getOllamaBaseUrl()).build();
         return languageModel;
     }
 
-    public LanguageModel produceLanguageModel()
+    public ChatLanguageModel produceLanguageModel()
     {
         if (languageModel != null) {
             return languageModel;
@@ -38,7 +40,7 @@ public class LlmProducer
     }
 
 
-    public LanguageModel produceLanguageModel(String llmCode)
+    public ChatLanguageModel produceLanguageModel(String llmCode)
     {
         if (languageModel != null) {
             return languageModel;
@@ -46,7 +48,7 @@ public class LlmProducer
         return getLanguageModel(llmCode);
     }
 
-    public LanguageModel echo()
+    public ChatLanguageModel echo()
     {
 
         return new DoubleEchoLanguageModel();
@@ -56,6 +58,9 @@ public class LlmProducer
     {
         this.languageModel = null;
     }
+
+
+
 
 
 }

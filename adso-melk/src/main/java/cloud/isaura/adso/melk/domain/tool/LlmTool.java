@@ -1,4 +1,4 @@
-package cloud.isaura.adso.melk.domain.tools;
+package cloud.isaura.adso.melk.domain.tool;
 
 
 import jakarta.enterprise.context.ApplicationScoped;
