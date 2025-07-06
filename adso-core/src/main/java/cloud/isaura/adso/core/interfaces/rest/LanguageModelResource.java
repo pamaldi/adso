@@ -18,12 +18,21 @@ public class LanguageModelResource
     @Inject
     private LanguageModelService languageModelService;
 
-    @Path("available-models")
+    @Path("models/available")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Set<String> availableModels()
     {
         LOG.info("Available models");
         return languageModelService.availableModels();
+    }
+
+    @Path("models/running")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<String> runningModels()
+    {
+        LOG.info("running models");
+        return languageModelService.runningModels();
     }
 }

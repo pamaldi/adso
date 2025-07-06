@@ -6,6 +6,4 @@ public interface Dialogic extends OneShot
 
     void end();
 
-
-
 }

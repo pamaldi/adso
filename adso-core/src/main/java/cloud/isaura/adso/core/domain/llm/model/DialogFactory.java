@@ -16,7 +16,8 @@ public class DialogFactory
     }
 
     public SingleTurn createOneShot(InterlocutorPair pair) {
-
-        return new SingleTurn(pair,producer);
+        SingleTurn singleTurn = new SingleTurn(producer);
+        singleTurn.pair(pair);
+        return singleTurn;
     }
 }

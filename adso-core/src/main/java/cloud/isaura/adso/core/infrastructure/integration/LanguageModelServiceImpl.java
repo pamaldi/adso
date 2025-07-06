@@ -4,10 +4,10 @@ import cloud.isaura.adso.core.domain.llm.service.LanguageModelService;
 import cloud.isaura.adso.core.infrastructure.configuration.Configuration;
 import dev.langchain4j.model.ollama.OllamaModel;
 import dev.langchain4j.model.ollama.OllamaModels;
+import dev.langchain4j.model.ollama.RunningOllamaModel;
 import io.smallrye.common.constraint.NotNull;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
-
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +23,14 @@ public class LanguageModelServiceImpl implements LanguageModelService
     {
         OllamaModels ollamaModels = OllamaModels.builder().baseUrl(configuration.getOllamaBaseUrl()).build();
         return ollamaModels.availableModels().content().stream().map(OllamaModel::getModel).collect(Collectors.toSet());
+
+    }
+
+    @Override
+    public @NotNull Set<String> runningModels()
+    {
+        OllamaModels ollamaModels = OllamaModels.builder().baseUrl(configuration.getOllamaBaseUrl()).build();
+        return ollamaModels.runningModels().content().stream().map(RunningOllamaModel::getModel).collect(Collectors.toSet());
 
     }
 }

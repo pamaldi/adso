@@ -1,10 +1,8 @@
 package cloud.isaura.adso.core.infrastructure.integration;
 
 import cloud.isaura.adso.core.infrastructure.configuration.Configuration;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.language.LanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
-import dev.langchain4j.model.ollama.OllamaLanguageModel;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
@@ -15,9 +13,9 @@ public class LlmProducer
 
     @Inject
     Configuration configuration;
-    private ChatLanguageModel languageModel;
+    private ChatModel languageModel;
 
-    private ChatLanguageModel getLanguageModel(String llm)
+    private ChatModel getLanguageModel(String llm)
     {
         if (llm == null || llm.trim().length() == 0) {
             throw new IllegalArgumentException("Not exisiting llm: ");
@@ -30,7 +28,7 @@ public class LlmProducer
         return languageModel;
     }
 
-    public ChatLanguageModel produceLanguageModel()
+    public ChatModel produceLanguageModel()
     {
         if (languageModel != null) {
             return languageModel;
@@ -40,7 +38,7 @@ public class LlmProducer
     }
 
 
-    public ChatLanguageModel produceLanguageModel(String llmCode)
+    public ChatModel produceLanguageModel(String llmCode)
     {
         if (languageModel != null) {
             return languageModel;
@@ -48,7 +46,7 @@ public class LlmProducer
         return getLanguageModel(llmCode);
     }
 
-    public ChatLanguageModel echo()
+    public ChatModel echo()
     {
 
         return new DoubleEchoLanguageModel();

@@ -1,8 +1,6 @@
 package cloud.isaura.adso.core.domain.llm.model;
 
 import cloud.isaura.adso.core.infrastructure.integration.LlmProducer;
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
 
 
 public class Dialog implements Dialogic

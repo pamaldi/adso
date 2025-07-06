@@ -3,17 +3,15 @@ package cloud.isaura.adso.core.domain.llm.model;
 import cloud.isaura.adso.core.infrastructure.integration.LlmProducer;
 import jakarta.inject.Inject;
 
+
 public class SingleTurn implements OneShot
 {
-
     private InterlocutorPair interlocutorPair;
-
-
     private LlmProducer producer;
 
-    public SingleTurn(InterlocutorPair interlocutorPair, LlmProducer producer)
+    @Inject
+    public SingleTurn(LlmProducer producer)
     {
-        this.interlocutorPair = interlocutorPair;
         this.producer = producer;
     }
 
@@ -21,7 +19,14 @@ public class SingleTurn implements OneShot
     public Message send(Message message)
     {
 
-        return new Message (producer.produceLanguageModel().chat(message.content()),Interlocutor.LLM) ;
+        Interlocutor sender = (message.source().equals(interlocutorPair.one()))
+                ? interlocutorPair.two()
+                : interlocutorPair.one();
+
+        return new Message(
+                producer.produceLanguageModel().chat(message.content()),
+                sender
+        );
     }
 
     @Override
@@ -32,5 +37,6 @@ public class SingleTurn implements OneShot
         {
             throw new IllegalArgumentException("Invalid interlocutor pair");
         }
+        this.interlocutorPair = interlocutorPair;
     }
 }

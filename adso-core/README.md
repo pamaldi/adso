@@ -60,3 +60,7 @@ If you want to learn more about building native executables, please consult http
 Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+## Link
+- Dev UI  http://localhost:8080/q/dev-ui/extensions
+- Swagger http://localhost:8080/q/dev-ui/io.quarkus.quarkus-smallrye-openapi/swagger-ui

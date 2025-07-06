@@ -16,7 +16,7 @@ class ExampleResourceTest
                 .when().get("/hello")
                 .then()
                 .statusCode(200)
-                .body(is("Hello from Quarkus REST"));
+                .body(is("Stat rosa pristine nomine, nomina nuda tenemus"));
     }
 
 }
